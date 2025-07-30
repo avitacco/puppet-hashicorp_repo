@@ -19,7 +19,7 @@ describe 'hashicorp_repo' do
               'release'      => os_facts[:os]['distro']['codename'],
               'repos'        => 'main',
               'key'          => {
-                'name'   => 'hashicorp.gpg',
+                'name'   => 'hashicorp.asc',
                 'source' => 'https://apt.releases.hashicorp.com/gpg',
               },
             )
