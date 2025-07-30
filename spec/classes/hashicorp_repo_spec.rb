@@ -64,9 +64,79 @@ describe 'hashicorp_repo' do
 
       when 'RedHat'
         context 'on RedHat-based systems' do
-          it 'does not create any repository resources (TODO: not implemented)' do
-            is_expected.not_to contain_yumrepo('hashicorp')
+          it 'creates the HashiCorp yum repository' do
+            is_expected.to contain_yumrepo('hashicorp').with(
+              'descr'         => 'Official HashiCorp package repository',
+              'baseurl'       => 'https://rpm.releases.hashicorp.com/RHEL/$releasever/$basearch/stable',
+              'gpgcheck'      => 1,
+              'gpgkey'        => 'https://rpm.releases.hashicorp.com/gpg',
+              'repo_gpgcheck' => true,
+              'enabled'       => true,
+            )
+          end
+
+          it 'does not create apt source' do
             is_expected.not_to contain_apt__source('hashicorp')
+          end
+
+          context 'on Fedora' do
+            let(:facts) do
+              os_facts.merge(
+                {
+                  'os' => os_facts[:os].merge(
+                    {
+                      'name' => 'Fedora'
+                    },
+                  )
+                },
+              )
+            end
+
+            it 'uses fedora in the baseurl' do
+              is_expected.to contain_yumrepo('hashicorp').with_baseurl(
+                'https://rpm.releases.hashicorp.com/fedora/$releasever/$basearch/stable',
+              )
+            end
+          end
+
+          context 'on Amazon Linux' do
+            let(:facts) do
+              os_facts.merge(
+                {
+                  'os' => os_facts[:os].merge(
+                    {
+                      'name' => 'Amazon'
+                    },
+                  )
+                },
+              )
+            end
+
+            it 'uses AmazonLinux in the baseurl' do
+              is_expected.to contain_yumrepo('hashicorp').with_baseurl(
+                'https://rpm.releases.hashicorp.com/AmazonLinux/$releasever/$basearch/stable',
+              )
+            end
+          end
+
+          context 'on CentOS' do
+            let(:facts) do
+              os_facts.merge(
+                {
+                  'os' => os_facts[:os].merge(
+                    {
+                      'name' => 'CentOS'
+                    },
+                  )
+                },
+              )
+            end
+
+            it 'uses RHEL in the baseurl (default case)' do
+              is_expected.to contain_yumrepo('hashicorp').with_baseurl(
+                'https://rpm.releases.hashicorp.com/RHEL/$releasever/$basearch/stable',
+              )
+            end
           end
         end
 

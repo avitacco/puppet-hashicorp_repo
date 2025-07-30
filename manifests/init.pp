@@ -28,7 +28,24 @@ class hashicorp_repo {
     }
 
     'RedHat': {
-      # TODO: add redhat support
+      #
+      # Hashicorp has specific repos for Fedora and Amazon Linux, but the names
+      # don't match with $facts['os']['name'] for those distributions.
+      #
+      $os_name = $facts['os']['name'] ? {
+        'Fedora' => 'fedora',
+        'Amazon' => 'AmazonLinux',
+        default  => 'RHEL',
+      }
+
+      yumrepo { 'hashicorp':
+        descr         => 'Official HashiCorp package repository',
+        baseurl       => "https://rpm.releases.hashicorp.com/${os_name}/\$releasever/\$basearch/stable",
+        gpgcheck      => 1,
+        gpgkey        => 'https://rpm.releases.hashicorp.com/gpg',
+        repo_gpgcheck => true,
+        enabled       => true,
+      }
     }
 
     default: {

@@ -5,3 +5,8 @@ fixtures:
   forge_modules:
     apt: "puppetlabs/apt"
     stdlib: "puppetlabs/stdlib"
+    yumrepo_core: "puppetlabs/yumrepo_core"
+  repositories:
+    facts: 'https://github.com/puppetlabs/puppetlabs-facts.git'
+    puppet_agent: 'https://github.com/puppetlabs/puppetlabs-puppet_agent.git'
+    provision: 'https://github.com/puppetlabs/provision.git'
