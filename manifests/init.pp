@@ -21,7 +21,7 @@ class hashicorp_repo {
         release      => $facts['os']['distro']['codename'],
         repos        => 'main',
         key          => {
-          'name'   => 'hashicorp.gpg',
+          'name'   => 'hashicorp.asc',
           'source' => 'https://apt.releases.hashicorp.com/gpg',
         },
       }
