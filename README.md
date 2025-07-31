@@ -28,12 +28,29 @@ can include setup steps, if necessary, or it can be an example of the most basic
 use of the module.
 
 ## Usage
+Usage of this module is pretty straight-forward.
 
-This module is very simple to use.
+### Installation
 
 ```puppet
+#
+# Install the hashicorp official repo on RedHat- and Debian-based systems
+#
 if $facts['os']['family'] in ['Debian', 'RedHat'] {
  include hashicorp_repo
+}
+```
+
+### Removal
+
+```puppet
+#
+# Remove the hashicorp repo from RedHat- and Debian-based systems
+#
+if $facts['os']['family'] in ['Debian', 'RedHat'] {
+  class { 'hashicorp_repo':
+    ensure => 'absent',
+  }
 }
 ```
 

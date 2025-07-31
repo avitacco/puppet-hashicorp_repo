@@ -1,6 +1,6 @@
 {
   "name": "avitacco-hashicorp_repo",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "author": "Anthony Vitacco",
   "summary": "This module will add the official HashiCorp package repository to supported puppet-managed machines.",
   "license": "MIT",

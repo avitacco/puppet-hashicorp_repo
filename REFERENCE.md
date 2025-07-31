@@ -23,3 +23,17 @@ system. It fails when running on an unsupported distribution.
 include hashicorp_repo
 ```
 
+#### Parameters
+
+The following parameters are available in the `hashicorp_repo` class:
+
+* [`ensure`](#-hashicorp_repo--ensure)
+
+##### <a name="-hashicorp_repo--ensure"></a>`ensure`
+
+Data type: `Enum['present', 'absent']`
+
+
+
+Default value: `'present'`
+
