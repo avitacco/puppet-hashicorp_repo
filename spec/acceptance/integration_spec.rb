@@ -41,4 +41,33 @@ describe 'init class' do
       end
     end
   end
+
+  context 'removing hashicorp repo class works' do
+    let(:pp) do
+      <<-CODE
+        class { 'hashicorp_repo':
+          ensure => absent,
+        }
+      CODE
+    end
+
+    it 'behaves idempotently' do
+      idempotent_apply(pp)
+    end
+
+    if os[:family] == 'redhat'
+      describe yumrepo('hashicorp') do
+        it {
+          is_expected.not_to exist
+          is_expected.not_to be_enabled
+        }
+      end
+    elsif ['debian', 'ubuntu'].include?(os[:family])
+      describe file('/etc/apt/sources.list.d/hashicorp.list') do
+        it {
+          is_expected.not_to be_file
+        }
+      end
+    end
+  end
 end

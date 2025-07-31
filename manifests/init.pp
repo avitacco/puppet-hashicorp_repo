@@ -3,10 +3,14 @@
 # This class adds the official HashiCorp package repository to a supported
 # system. It fails when running on an unsupported distribution.
 #
+# @param ensure
+#
 # @example
 #   include hashicorp_repo
 #
-class hashicorp_repo {
+class hashicorp_repo (
+  Enum['present', 'absent'] $ensure = 'present',
+) {
   $architecture = $facts['os']['architecture'] ? {
     'aarch64' => 'arm64',
     default   => $facts['os']['architecture'],
@@ -15,6 +19,7 @@ class hashicorp_repo {
   case $facts['os']['family'] {
     'Debian': {
       apt::source { 'hashicorp':
+        ensure       => $ensure,
         comment      => 'Official HashiCorp package repository',
         location     => 'https://apt.releases.hashicorp.com',
         architecture => $architecture,
@@ -39,6 +44,7 @@ class hashicorp_repo {
       }
 
       yumrepo { 'hashicorp':
+        ensure        => $ensure,
         descr         => 'Official HashiCorp package repository',
         baseurl       => "https://rpm.releases.hashicorp.com/${os_name}/\$releasever/\$basearch/stable",
         gpgcheck      => 1,
